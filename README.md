@@ -14,7 +14,10 @@ You will be able to:
 * Perform index based slicing to create subsets of a time-series
 * Change the granularity of a time series 
 * Perform basic data cleasing operations on a time series
-* Getting time series data ready for further analysis
+* Explore the temporal structure of time series with line plots
+* Understand and describe the distribution of observations using histograms and density plots.
+* Measure the change in distribution over intervals using box and whisker plots and heat map plots
+
 
 
 ## Loading Time Series Data
@@ -590,6 +593,279 @@ in general, the`DataFrame.fillna()` function can be used along with, methods lik
 
 ## Visualizing time series data
 
+Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying of rises, falls, trends and noise etc. Plotting raw time series allows data diagnostics to identify temporal structures.
+
+In what follows, we'll use a data set downloaded from datamarket.com. The data set contains information on the averahe monthly returns of the NYSE between 1961 and 1966.
+
+
+```python
+import pandas as pd
+import numpy as np
+from pandas.core import datetools
+```
+
+
+```python
+nyse = pd.read_csv("NYSE_monthly.csv")
+col_name= 'Month'
+nyse[col_name] = pd.to_datetime(nyse[col_name])
+nyse.set_index(col_name, inplace=True)
+
+nyse.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>monthly_return</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1961-01-01</th>
+      <td>0.082</td>
+    </tr>
+    <tr>
+      <th>1961-02-01</th>
+      <td>0.059</td>
+    </tr>
+    <tr>
+      <th>1961-03-01</th>
+      <td>0.050</td>
+    </tr>
+    <tr>
+      <th>1961-04-01</th>
+      <td>0.008</td>
+    </tr>
+    <tr>
+      <th>1961-05-01</th>
+      <td>0.042</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Time series line plot
+
+Line plots are the most common technique for visualizing timeseries data as they can clearly show change over time. Using the convention, time is shown on the x-axis with observation values along the y-axis.
+
+Let's use the simple `Series.plot()` function to draw the line graph for the `nyse` series. 
+
+
+```python
+# Draw a line plot using temp and .plot() function. 
+nyse.plot(figsize = (16,6))
+import matplotlib.pyplot as plt
+plt.show()
+```
+
+
+![png](index_files/index_34_0.png)
+
+
+## Time series dot plot
+
+For some time series, you may want to change the style of a line plot for a more refined visualization with a higher resolution of events. These time series are not very dense, but 
+also here it might be useful to change from a continuous line to dots because this representation might be misleading. 
+You can change the continuous line to dots, each representing one entry in the time series. this can be achieved by `style` parameter of the line plot. lets pass `style='b.` as an argument to `.plot()` function.
+
+
+```python
+# Draw a line plot using temp and .plot() function. 
+nyse.plot(figsize = (20,6), style = ".b")
+import matplotlib.pyplot as plt
+plt.show()
+```
+
+
+![png](index_files/index_37_0.png)
+
+
+It's not a surprise to sesee that the general pattern looks very much similar to the line plot, however, we are able to identify some outliers that represent very low and very high return months. Dot plots can prove to be very helpful in identifying outliers and very small patterns which may not be so obvious otherwise. 
+
+In the dataset, the NYSE returns span 6 years. We can group data by year and create a line plot for each year for direct comparison.
+
+## Grouping and Visualizing time-series Data
+
+Now, we'll look at how a time series can be regrouped for a given a time interval, i.e. weekly/monthly/yearly average values and compare them to identify any changes taking places over time. 
+We'll use the `Pandas.grouper()` method to achieve this. Detailed documentation of this method can be accessed at [this](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Grouper.html) location. 
+
+1. Import pandas grouper and use it to group values by year.
+
+> **`series.groupby(pd.Grouper(freq = ‘A’))`**
+
+Here, A refers to annual frequency. The list of aliases for time-series frequencies can be found [HERE](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases)
+
+2. Enumerate the groups and observations for each year in a new DataFrame.
+
+3. Plot the DataFrame and visualize each column as a subplot. 
+
+
+
+```python
+# Use pandas grouper to group values using annual frequency
+year_groups = nyse.groupby(pd.Grouper(freq ='A'))
+```
+
+
+```python
+#Create a new DataFrame and store yearly values in columns 
+nyse_annual = pd.DataFrame()
+
+for yr, group in year_groups:
+    nyse_annual[yr.year] = group.values.ravel()
+    
+# Plot the yearly groups as subplots
+nyse_annual.plot(figsize = (13,8), subplots=True, legend=True)
+plt.show()
+```
+
+
+![png](index_files/index_41_0.png)
+
+
+We can see 6 subplots, one for each year. Each plot is 12 months in length following the annual frequency.
+
+In some cases, it may also be a good a idea to plot these groups in an overlapping manner for a direct comparison. Disabling subplots can help us achieve this.
+
+
+```python
+# Plot overlapping yearly groups 
+nyse_annual.plot(figsize = (15,5), subplots=False, legend=True)
+plt.show()
+```
+
+
+![png](index_files/index_43_0.png)
+
+
+## Time Series Histogram and Density Plots
+
+Another important visualization is of the distribution of observations themselves. This means a plot of the values without the temporal ordering.
+
+Most linear time series forecasting methods assume a well-behaved distribution of observations e.g. a normal distribution. This can be explicitly checked using tools like statistical hypothesis tests we saw during hypothesis testing exercises. Visualizing these distributions can provide a useful first check of the distribution of observations both on raw observations and after any type of data transform has been performed.
+
+We will now create a histogram plot of the observations in the dataset using `hist()`. 
+
+>A histogram groups values into bins, and the frequency or count of observations in each bin can provide insight into the underlying distribution of the observations.
+
+
+```python
+nyse.hist(figsize = (10,6))
+plt.show()
+```
+
+
+![png](index_files/index_45_0.png)
+
+
+The plot shows a distribution that doesn't exactly look Gaussian/Normal. The plotting function automatically selected the size of the bins based on the spread of values in the data here. Let's see what happens if we set the number of bins equal to 7.
+
+
+```python
+nyse.hist(figsize = (10,6), bins = 7)
+plt.show()
+```
+
+
+![png](index_files/index_47_0.png)
+
+
+This already looks more normal. With stock exchange returns, it is to be expected that on average, the returns will be 0 and have a gaussian distribution around that. With only 6 years of monthly data, it is to be expected that the distribution does not exactly look gaussian. 
+
+We can also get a better idea of the shape of the distribution of observations by using a density plot which is like the histogram, except a function is used to fit the distribution of observations with smoothing to summarize this distribution.
+
+Let's plot a density plot of the NYSE stock exchange data. We will achieve this by setting the kind parameter of the plot() function to KDE, which stands for Kernel Density Estimation.
+
+
+```python
+# Plot a density plot for temperature dataset
+nyse.plot(kind='kde', figsize = (15,10))
+plt.show()
+```
+
+
+![png](index_files/index_50_0.png)
+
+
+We can see that density plot provides a clearer summary of the distribution of observations. We can see that perhaps the distribution is more gaussian than we were able to see in the histogram.
+
+Seeing a distribution like this may suggest later exploring statistical hypothesis tests to formally check if the distribution is Gaussian and perhaps data preparation techniques to reshape the distribution.
+
+## Time series box and whisker plots by year
+
+Histograms and density plots provide insight into the distribution of all observations, but we may be interested in the distribution of values by **time interval**.
+
+Another type of plot that is useful to summarize the distribution of observations is the box and whisker plot. This plot draws a box around the 25th and 75th percentiles of the data that captures the middle 50% of observations. A line is drawn at the 50th percentile (the median) and whiskers are drawn above and below the box to summarize the general extents of the observations. Dots are drawn for outliers outside the whiskers or extents of the data.
+
+Box and whisker plots can be created and compared for each interval in a time series, such as years, months, or days.
+
+Let's use our groups by years DataFrame to plot a box and whisker plot for each year,  side-by-side for direct comparison using `boxplot()`.
+
+
+```python
+# Generate a box and whiskers plot for temp_annual dataframe
+nyse_annual.boxplot(figsize = (12,7))
+plt.show()
+```
+
+
+![png](index_files/index_53_0.png)
+
+
+Comparing box and whisker plots by consistent intervals is a useful tool. Within an interval, it can help to spot outliers (dots above or below the whiskers).
+
+Across intervals, we can look for multiple year trends, seasonality, and other structural information that could be modeled. Seasonality is generally not a thing in financial data, but in the lab that follows you'll explore visualizing the temperature data!
+
+## Time series heat maps
+
+A matrix of numbers can be plotted as a surface, where the values in each cell of the matrix are assigned a unique color. This is called a heatmap, as larger values can be drawn with warmer colors (yellows and reds) and smaller values can be drawn with cooler colors (blues and greens). Like the box and whisker plots, we can compare observations between intervals using a heat map.
+
+In the case of our NYSE dataset, the observations can be arranged into a matrix of year-columns and month-rows, with monthly returns in the cell for each day. A heat map of this matrix can then be plotted.
+
+We'll now create a heatmap of the Minimum Daily Temperatures data. The `matshow()` function from the matplotlib library is used as no heatmap support is provided directly in Pandas.
+
+1. Rotate (transpose) the `nyse_annual` dataframe as a new matrix the matrix so that each row represents one year and each column one day. This provides a more intuitive, left-to-right layout of the data.
+
+2. Use `matshow()` function to draw a heatmap for transposed yearly matrix. details on matshow can be accessed [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.matshow.html).
+
+
+```python
+year_matrix = nyse_annual.T
+plt.matshow(year_matrix, interpolation=None, aspect='auto', cmap=plt.cm.Spectral_r)
+plt.show()
+```
+
+
+![png](index_files/index_57_0.png)
+
+
+Orange/red colors represent higher values, blue represents low values, green represents values in the middle. Heatplots will make more sense after you've gone through the lab which will follow later and examinge the Australian temperature data.
+
 ## Additional reading
 
 An overview of Pandas time series functionality can be found [here](https://pandas.pydata.org/pandas-docs/stable/timeseries.html).
@@ -598,4 +874,4 @@ Some more manipulation tricks can be found [here](https://towardsdatascience.com
 
 ## Summary
 
-In this introductory lesson, we learnt how to create a time-series object in Python using Pandas. We learnt to fulfil all the requirements for a dataset to be classified as a time-series by ensuring timestamp values as data index. Basic data handling techniques for getting time-series data ready for further analysis were introduced.
+In this introductory lesson, we learnt how to create a time-series object in Python using Pandas. We learnt to fulfil all the requirements for a dataset to be classified as a time-series by ensuring timestamp values as data index. Basic data handling techniques for getting time-series data ready for further analysis were introduced. We also learnt how to explore the temporal relationships with line, scatter, and autocorrelation plots. We also explored the distribution of observations with histograms and density plots and change in distribution of observations with box and whisker and heat map plots.
