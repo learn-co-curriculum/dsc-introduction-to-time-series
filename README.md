@@ -11,11 +11,11 @@ In this lecture, you will be introduced to some common techniques used to import
 You will be able to:
 
 * Load time series data using Pandas and perform time series indexing
-* Perform index based slicing to create subsets of a time-series
+* Perform index based slicing to create subsets of a time series
 * Change the granularity of a time series 
 * Perform basic data cleaning operations on time series data
 * Explore the temporal structure of time series with line plots
-* Understand and describe the distribution of observations using histograms and density plots.
+* Understand and describe the distribution of observations using histograms and density plots
 * Measure the change in distribution over intervals using box and whisker plots and heat map plots
 
 ## Loading Time Series Data
