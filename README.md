@@ -10,19 +10,17 @@ In this lecture, you will be introduced to some common techniques used to import
 
 You will be able to:
 
-* Load time-series data using Pandas and perform time series indexing
+* Load time series data using Pandas and perform time series indexing
 * Perform index based slicing to create subsets of a time-series
 * Change the granularity of a time series 
-* Perform basic data cleasing operations on a time series
+* Perform basic data cleaning operations on time series data
 * Explore the temporal structure of time series with line plots
 * Understand and describe the distribution of observations using histograms and density plots.
 * Measure the change in distribution over intervals using box and whisker plots and heat map plots
 
-
-
 ## Loading Time Series Data
 
-To get a sense of how to manipulate time series data, we'll walk through an example. The dataset we'll load contains daily minimum temperatures in Melbourne, Australia, from 1981-1986. The data is stored in a `.csv`-file, so our usual `pd.read_csv` can be used.
+To get a sense of how to manipulate time series data, we'll walk through an example. The dataset we'll load contains daily minimum temperatures in Melbourne, Australia, from 1981-1990. The data is stored in a `.csv`-file, so our usual `pd.read_csv` can be used.
 
 
 ```python
@@ -173,12 +171,18 @@ temp_data.info()
 ```
 
     <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 3650 entries, 0 to 3649
-    Data columns (total 2 columns):
-    Date         3650 non-null datetime64[ns]
+    DatetimeIndex: 3650 entries, 1981-01-01 to 1990-12-31
+    Data columns (total 1 columns):
     Daily_min    3650 non-null float64
-    dtypes: datetime64[ns](1), float64(1)
-    memory usage: 57.1 KB
+    dtypes: float64(1)
+    memory usage: 217.0 KB
+
+
+
+
+
+    3650
+
 
 
 
@@ -304,7 +308,7 @@ temp_data.head(15)
 
 ### Downsampling
 
-Note how the Date is now the index! Having the date as the index has several advantages, among others, easy visualization with dates on the x-axis, and the functionality to *resample* the data. 
+Note how the Date is now the index! Having the date as the index has several advantages, among others, easy visualization with dates on the x-axis, and the functionality to [resample]((http://pandas.pydata.org/pandas-docs/stable/timeseries.html) the data. 
 
 Pandas has a simple, powerful, and efficient functionality for performing resampling operations when converting the frequency conversion (e.g., converting monthly data into yearly data). This is very common in financial applications.
 
@@ -593,7 +597,7 @@ in general, the`DataFrame.fillna()` function can be used along with, methods lik
 
 ## Visualizing time series data
 
-Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying of rises, falls, trends and noise etc. Plotting raw time series allows data diagnostics to identify temporal structures.
+Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying of rises, falls, trends and noise etc. Plotting raw time series allows data diagnostics to identify certain trends or events.
 
 In what follows, we'll use a data set downloaded from datamarket.com. The data set contains information on the averahe monthly returns of the NYSE between 1961 and 1966.
 
@@ -718,7 +722,7 @@ We'll use the `Pandas.grouper()` method to achieve this. Detailed documentation 
 
 > **`series.groupby(pd.Grouper(freq = ‘A’))`**
 
-Here, A refers to annual frequency. The list of aliases for time-series frequencies can be found [HERE](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases)
+Here, A refers to annual frequency. The list of aliases for time-series frequencies can be found [here](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases).
 
 2. Enumerate the groups and observations for each year in a new DataFrame.
 
