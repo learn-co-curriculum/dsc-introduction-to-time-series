@@ -171,18 +171,12 @@ temp_data.info()
 ```
 
     <class 'pandas.core.frame.DataFrame'>
-    DatetimeIndex: 3650 entries, 1981-01-01 to 1990-12-31
-    Data columns (total 1 columns):
+    RangeIndex: 3650 entries, 0 to 3649
+    Data columns (total 2 columns):
+    Date         3650 non-null datetime64[ns]
     Daily_min    3650 non-null float64
-    dtypes: float64(1)
-    memory usage: 217.0 KB
-
-
-
-
-
-    3650
-
+    dtypes: datetime64[ns](1), float64(1)
+    memory usage: 57.1 KB
 
 
 
@@ -573,7 +567,7 @@ print(temp_1985_onwards.tail())
 
 ## Missing Data
 
-It's pretty common for a time series dataset to have missing values as real world data tends to be messy and imperfect, just like any othe type of data. Simplest way to detect missing values is either plotting the data and identifying disjoint areas of timeseries, or by using `DataFrame.isnull()` function to get list of all missing values. This function can be used with `sum()` to get a total count of all missing values. 
+It's pretty common for a time series dataset to have missing values as real world data tends to be messy and imperfect, just like any other type of data. Simplest way to detect missing values is either plotting the data and identifying disjoint areas of timeseries, or by using `DataFrame.isnull()` function to get list of all missing values. This function can be used with `sum()` to get a total count of all missing values. 
 
 
 ```python
@@ -599,7 +593,7 @@ in general, the`DataFrame.fillna()` function can be used along with, methods lik
 
 Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying of rises, falls, trends and noise etc. Plotting raw time series allows data diagnostics to identify certain trends or events.
 
-In what follows, we'll use a data set downloaded from datamarket.com. The data set contains information on the averahe monthly returns of the NYSE between 1961 and 1966.
+In what follows, we'll use a data set downloaded from datamarket.com. The data set contains information on the average monthly returns of the NYSE between 1961 and 1966.
 
 
 ```python
@@ -607,6 +601,10 @@ import pandas as pd
 import numpy as np
 from pandas.core import datetools
 ```
+
+    /Users/lore.dirick/anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:3: FutureWarning: The pandas.core.datetools module is deprecated and will be removed in a future version. Please use the pandas.tseries module instead.
+      This is separate from the ipykernel package so we can avoid doing imports until
+
 
 
 ```python
@@ -688,7 +686,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_34_0.png)
+    <matplotlib.figure.Figure at 0x11a4f51d0>
 
 
 ## Time series dot plot
@@ -706,10 +704,10 @@ plt.show()
 ```
 
 
-![png](index_files/index_37_0.png)
+![png](index_files/index_26_0.png)
 
 
-It's not a surprise to sesee that the general pattern looks very much similar to the line plot, however, we are able to identify some outliers that represent very low and very high return months. Dot plots can prove to be very helpful in identifying outliers and very small patterns which may not be so obvious otherwise. 
+It's not a surprise to see that the general pattern looks very much similar to the line plot, however, we are able to identify some outliers that represent very low and very high return months. Dot plots can prove to be very helpful in identifying outliers and very small patterns which may not be so obvious otherwise. 
 
 In the dataset, the NYSE returns span 6 years. We can group data by year and create a line plot for each year for direct comparison.
 
@@ -749,7 +747,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_41_0.png)
+![png](index_files/index_29_0.png)
 
 
 We can see 6 subplots, one for each year. Each plot is 12 months in length following the annual frequency.
@@ -764,7 +762,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_43_0.png)
+![png](index_files/index_31_0.png)
 
 
 ## Time Series Histogram and Density Plots
@@ -784,7 +782,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_45_0.png)
+![png](index_files/index_33_0.png)
 
 
 The plot shows a distribution that doesn't exactly look Gaussian/Normal. The plotting function automatically selected the size of the bins based on the spread of values in the data here. Let's see what happens if we set the number of bins equal to 7.
@@ -796,10 +794,10 @@ plt.show()
 ```
 
 
-![png](index_files/index_47_0.png)
+![png](index_files/index_35_0.png)
 
 
-This already looks more normal. With stock exchange returns, it is to be expected that on average, the returns will be 0 and have a gaussian distribution around that. With only 6 years of monthly data, it is to be expected that the distribution does not exactly look gaussian. 
+This already looks more normal. With stock exchange returns, it is to be expected that on average, the returns will be 0 and have a Gaussian distribution around that. With only 6 years of monthly data, it is to be expected that the distribution does not exactly look Gaussian. 
 
 We can also get a better idea of the shape of the distribution of observations by using a density plot which is like the histogram, except a function is used to fit the distribution of observations with smoothing to summarize this distribution.
 
@@ -813,10 +811,10 @@ plt.show()
 ```
 
 
-![png](index_files/index_50_0.png)
+![png](index_files/index_37_0.png)
 
 
-We can see that density plot provides a clearer summary of the distribution of observations. We can see that perhaps the distribution is more gaussian than we were able to see in the histogram.
+We can see that density plot provides a clearer summary of the distribution of observations. We can see that perhaps the distribution is more Gaussian than we were able to see in the histogram.
 
 Seeing a distribution like this may suggest later exploring statistical hypothesis tests to formally check if the distribution is Gaussian and perhaps data preparation techniques to reshape the distribution.
 
@@ -838,7 +836,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_53_0.png)
+![png](index_files/index_39_0.png)
 
 
 Comparing box and whisker plots by consistent intervals is a useful tool. Within an interval, it can help to spot outliers (dots above or below the whiskers).
@@ -865,10 +863,10 @@ plt.show()
 ```
 
 
-![png](index_files/index_57_0.png)
+![png](index_files/index_41_0.png)
 
 
-Orange/red colors represent higher values, blue represents low values, green represents values in the middle. Heatplots will make more sense after you've gone through the lab which will follow later and examinge the Australian temperature data.
+Orange/red colors represent higher values, blue represents low values, green represents values in the middle. Heatplots will make more sense after you've gone through the lab which will follow later and examine the Australian temperature data.
 
 ## Additional reading
 
@@ -878,4 +876,4 @@ Some more manipulation tricks can be found [here](https://towardsdatascience.com
 
 ## Summary
 
-In this introductory lesson, we learnt how to create a time-series object in Python using Pandas. We learnt to fulfil all the requirements for a dataset to be classified as a time-series by ensuring timestamp values as data index. Basic data handling techniques for getting time-series data ready for further analysis were introduced. We also learnt how to explore the temporal relationships with line, scatter, and autocorrelation plots. We also explored the distribution of observations with histograms and density plots and change in distribution of observations with box and whisker and heat map plots.
+In this introductory lesson, we learned how to create a time-series object in Python using Pandas. We learned how to fulfill all the requirements for a dataset to be classified as a time-series by ensuring timestamp values as data index. Basic data handling techniques for getting time-series data ready for further analysis were introduced. We also learned how to explore the temporal relationships with line, scatter, and autocorrelation plots. We also explored the distribution of observations with histograms and density plots and change in distribution of observations with box and whisker and heat map plots.
