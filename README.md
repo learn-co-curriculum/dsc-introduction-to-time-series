@@ -302,7 +302,7 @@ temp_data.head(15)
 
 ### Downsampling
 
-Note how the Date is now the index! Having the date as the index has several advantages, among others, easy visualization with dates on the x-axis, and the functionality to [resample]((http://pandas.pydata.org/pandas-docs/stable/timeseries.html) the data. 
+Note how the Date is now the index! Having the date as the index has several advantages, among others, easy visualization with dates on the x-axis, and the functionality to [resample](http://pandas.pydata.org/pandas-docs/stable/timeseries.html) the data. 
 
 Pandas has a simple, powerful, and efficient functionality for performing resampling operations when converting the frequency conversion (e.g., converting monthly data into yearly data). This is very common in financial applications.
 
@@ -599,12 +599,8 @@ In what follows, we'll use a data set downloaded from datamarket.com. The data s
 ```python
 import pandas as pd
 import numpy as np
-from pandas.core import datetools
+
 ```
-
-    /Users/lore.dirick/anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:3: FutureWarning: The pandas.core.datetools module is deprecated and will be removed in a future version. Please use the pandas.tseries module instead.
-      This is separate from the ipykernel package so we can avoid doing imports until
-
 
 
 ```python
@@ -686,7 +682,7 @@ plt.show()
 ```
 
 
-    <matplotlib.figure.Figure at 0x11a4f51d0>
+    <Figure size 1600x600 with 1 Axes>
 
 
 ## Time series dot plot
