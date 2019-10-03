@@ -152,10 +152,10 @@ temp_data.info()
     memory usage: 57.1+ KB
 
 
-While working with time series data in Python, it's important to always ensure that dates are used as index values and are understood my Python as a true "date" object. This can be done either by using Pandas' `Timestamp` or base Python’s `Datetime` and is interchangeable in most cases. It’s the type used for the entries that make up a `DatetimeIndex`, and other timeseries oriented data structures in pandas. Further details on Timestamp can be found [here](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Timestamp.html).
+While working with time series data in Python, it's important to always ensure that dates are used as index values and are understood my Python as a true "date" object. This can be done either by using Pandas' `Timestamp` or base Python’s `Datetime` and is interchangeable in most cases. It’s the type used for the entries that make up a `DatetimeIndex`, and other time series oriented data structures in pandas. Further details on Timestamp can be found [here](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Timestamp.html).
 
 We need to do two things now:
-1. Make sure that we change the dates in our data sets fron "non-null object" to "non-null datetime". To make sure Python understands the date correctly, a `format` argument can be passed [as specified in the documentation](https://pandas.pydata.org/pandas-docs/stable/timeseries.html#providing-a-format-argument).
+1. Make sure that we change the dates in our data sets from "non-null object" to "non-null datetime". To make sure Python understands the date correctly, a `format` argument can be passed [as specified in the documentation](https://pandas.pydata.org/pandas-docs/stable/timeseries.html#providing-a-format-argument).
 2. Make sure that the date becomes the index.
 
 
@@ -414,7 +414,7 @@ month_mean.head(15)
 
 ### Upsampling
 
-In some cases, it is useful to create upsampled time series as well, especially if you're trying to merge several time series together with different frequencies. You can do this by using "resample" to a time which is more frequent than the timestamp from the original time series. 
+In some cases, it is useful to create upsampled time series as well, especially if you're trying to merge several time series with different frequencies. You can do this by using "resample" to a time that is more frequent than the timestamp from the original time series. 
 
 
 ```python
@@ -567,7 +567,7 @@ print(temp_1985_onwards.tail())
 
 ## Missing Data
 
-It's pretty common for a time series dataset to have missing values as real world data tends to be messy and imperfect, just like any other type of data. Simplest way to detect missing values is either plotting the data and identifying disjoint areas of timeseries, or by using `DataFrame.isnull()` function to get list of all missing values. This function can be used with `sum()` to get a total count of all missing values. 
+It's pretty common for a time series dataset to have missing values as real-world data tends to be messy and imperfect, just like any other type of data. The simplest way to detect missing values is either plotting the data and identifying disjoint areas of time series, or by using `DataFrame.isnull()` function to get a list of all missing values. This function can be used with `sum()` to get a total count of all missing values. 
 
 
 ```python
@@ -583,7 +583,7 @@ temp_data.isnull().sum()
 
 
 In this case, there is no missing data. When missingness is present, however, they can be handled in a multitude of ways. 
-* Drop the data elements with missing values (this may result as low accuracy and loss of valuable information)
+* Drop the data elements with missing values (this may result in low accuracy and loss of valuable information)
 * Fill in the missing values under a defined criteria 
 * Use advanced machine learning methods to predict the missing values 
 
@@ -591,7 +591,7 @@ in general, the`DataFrame.fillna()` function can be used along with, methods lik
 
 ## Visualizing time series data
 
-Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying of rises, falls, trends and noise etc. Plotting raw time series allows data diagnostics to identify certain trends or events.
+Visualizations play an important role in time series analysis. Time series data naturally lends itself to visualization techniques for identifying rises, falls, trends and noise, etc. Plotting raw time series allows data diagnostics to identify certain trends or events.
 
 In what follows, we'll use a data set downloaded from datamarket.com. The data set contains information on the average monthly returns of the NYSE between 1961 and 1966.
 
@@ -703,20 +703,20 @@ plt.show()
 ![png](index_files/index_26_0.png)
 
 
-It's not a surprise to see that the general pattern looks very much similar to the line plot, however, we are able to identify some outliers that represent very low and very high return months. Dot plots can prove to be very helpful in identifying outliers and very small patterns which may not be so obvious otherwise. 
+It's not a surprise to see that the general pattern looks very much similar to the line plot, however, we can identify some outliers that represent very low and very high return months. Dot plots can prove to be very helpful in identifying outliers and very small patterns which may not be so obvious otherwise. 
 
 In the dataset, the NYSE returns span 6 years. We can group data by year and create a line plot for each year for direct comparison.
 
-## Grouping and Visualizing time-series Data
+## Grouping and Visualizing Time Series Data
 
-Now, we'll look at how a time series can be regrouped for a given a time interval, i.e. weekly/monthly/yearly average values and compare them to identify any changes taking places over time. 
+Now, we'll look at how a time series can be regrouped for a given time interval, i.e. weekly/monthly/yearly average values and compare them to identify any changes taking place over time. 
 We'll use the `Pandas.grouper()` method to achieve this. Detailed documentation of this method can be accessed at [this](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Grouper.html) location. 
 
 1. Import pandas grouper and use it to group values by year.
 
 > **`series.groupby(pd.Grouper(freq = ‘A’))`**
 
-Here, A refers to annual frequency. The list of aliases for time-series frequencies can be found [here](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases).
+Here, A refers to annual frequency. The list of aliases for time series frequencies can be found [here](http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases).
 
 2. Enumerate the groups and observations for each year in a new DataFrame.
 
@@ -748,7 +748,7 @@ plt.show()
 
 We can see 6 subplots, one for each year. Each plot is 12 months in length following the annual frequency.
 
-In some cases, it may also be a good a idea to plot these groups in an overlapping manner for a direct comparison. Disabling subplots can help us achieve this.
+In some cases, it may also be a good idea to plot these groups in an overlapping manner for a direct comparison. Disabling subplots can help us achieve this.
 
 
 ```python
@@ -763,9 +763,9 @@ plt.show()
 
 ## Time Series Histogram and Density Plots
 
-Another important visualization is of the distribution of observations themselves. This means a plot of the values without the temporal ordering.
+Another important visualization shows the distribution of observations themselves. This means a plot of the values without the temporal ordering.
 
-Most linear time series forecasting methods assume a well-behaved distribution of observations e.g. a normal distribution. This can be explicitly checked using tools like statistical hypothesis tests we saw during hypothesis testing exercises. Visualizing these distributions can provide a useful first check of the distribution of observations both on raw observations and after any type of data transform has been performed.
+Most linear time series forecasting methods assume a well-behaved distribution of observations e.g. a normal distribution. This can be explicitly checked using tools like statistical hypothesis tests we saw during hypothesis testing exercises. Visualizing these distributions can provide a useful first check of the distribution of observations both on raw observations and after any type of data transformation has been performed.
 
 We will now create a histogram plot of the observations in the dataset using `hist()`. 
 
@@ -810,7 +810,7 @@ plt.show()
 ![png](index_files/index_37_0.png)
 
 
-We can see that density plot provides a clearer summary of the distribution of observations. We can see that perhaps the distribution is more Gaussian than we were able to see in the histogram.
+We can see that the density plot provides a clearer summary of the distribution of observations. We can see that perhaps the distribution is more Gaussian than we were able to see in the histogram.
 
 Seeing a distribution like this may suggest later exploring statistical hypothesis tests to formally check if the distribution is Gaussian and perhaps data preparation techniques to reshape the distribution.
 
@@ -872,4 +872,4 @@ Some more manipulation tricks can be found [here](https://towardsdatascience.com
 
 ## Summary
 
-In this introductory lesson, we learned how to create a time-series object in Python using Pandas. We learned how to fulfill all the requirements for a dataset to be classified as a time-series by ensuring timestamp values as data index. Basic data handling techniques for getting time-series data ready for further analysis were introduced. We also learned how to explore the temporal relationships with line, scatter, and autocorrelation plots. We also explored the distribution of observations with histograms and density plots and change in distribution of observations with box and whisker and heat map plots.
+In this introductory lesson, we learned how to create a time series object in Python using Pandas. We learned how to fulfill all the requirements for a dataset to be classified as a time series by ensuring timestamp values as data index. Basic data handling techniques for getting time series data ready for further analysis were introduced. We also learned how to explore the temporal relationships with line, scatter, and autocorrelation plots. We also explored the distribution of observations with histograms and density plots and change in distribution of observations with box and whisker and heat map plots.
