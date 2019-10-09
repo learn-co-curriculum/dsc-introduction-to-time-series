@@ -152,7 +152,7 @@ temp_data.info()
     memory usage: 57.1+ KB
 
 
-While working with time series data in Python, it's important to always ensure that dates are used as index values and are understood my Python as a true "date" object. This can be done either by using Pandas' `Timestamp` or base Python’s `Datetime` and is interchangeable in most cases. It’s the type used for the entries that make up a `DatetimeIndex`, and other time series oriented data structures in pandas. Further details on Timestamp can be found [here](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Timestamp.html).
+While working with time series data in Python, it's important to always ensure that dates are used as index values and are understood by Python as a true "date" object. This can be done either by using Pandas' `Timestamp` or base Python’s `Datetime` and is interchangeable in most cases. It’s the type used for the entries that make up a `DatetimeIndex`, and other time series oriented data structures in pandas. Further details on Timestamp can be found [here](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Timestamp.html).
 
 We need to do two things now:
 1. Make sure that we change the dates in our data sets from "non-null object" to "non-null datetime". To make sure Python understands the date correctly, a `format` argument can be passed [as specified in the documentation](https://pandas.pydata.org/pandas-docs/stable/timeseries.html#providing-a-format-argument).
@@ -182,7 +182,7 @@ temp_data.info()
 
 ```python
 # 2. Make Date the index 
-temp_data.set_index('Date', inplace = True)
+temp_data.set_index('Date', inplace=True)
 ```
 
 
@@ -308,7 +308,7 @@ Pandas has a simple, powerful, and efficient functionality for performing resamp
 
 
 ```python
-temp_monthly= temp_data.resample('MS')
+temp_monthly = temp_data.resample('MS')
 month_mean = temp_monthly.mean()
 ```
 
@@ -582,12 +582,12 @@ temp_data.isnull().sum()
 
 
 
-In this case, there is no missing data. When missingness is present, however, they can be handled in a multitude of ways. 
+In this case, there is no missing data. When data are missing, they can be handled in a multitude of ways: 
 * Drop the data elements with missing values (this may result in low accuracy and loss of valuable information)
 * Fill in the missing values under a defined criteria 
 * Use advanced machine learning methods to predict the missing values 
 
-in general, the`DataFrame.fillna()` function can be used along with, methods like `bfill()` of `ffill()` as an argument/criterion for filling in Null values . `bfill()` (backward filling) looks for the next valid entry in the time series and fills the gaps with this value. Similarly, `ffill()` can be used to copy forward the previous valid entry of the time series.
+in general, the`DataFrame.fillna()` function can be used along with methods like `bfill()` of `ffill()` as an argument/criterion for filling in Null values . `bfill()` (backward filling) looks for the next valid entry in the time series and fills the gaps with this value. Similarly, `ffill()` can be used to copy forward the previous valid entry of the time series.
 
 ## Visualizing time series data
 
@@ -599,7 +599,6 @@ In what follows, we'll use a data set downloaded from datamarket.com. The data s
 ```python
 import pandas as pd
 import numpy as np
-
 ```
 
 
@@ -669,34 +668,32 @@ nyse.head()
 
 ## Time series line plot
 
-Line plots are the most common technique for visualizing timeseries data as they can clearly show change over time. Using the convention, time is shown on the x-axis with observation values along the y-axis.
+Line plots are the most common technique for visualizing time series data as they can clearly show change over time. Using the convention, time is shown on the x-axis with the observation values along the y-axis.
 
 Let's use the simple `Series.plot()` function to draw the line graph for the `nyse` series. 
 
 
 ```python
-# Draw a line plot using temp and .plot() function. 
-nyse.plot(figsize = (16,6))
+# Draw a line plot using nyse and .plot() function. 
 import matplotlib.pyplot as plt
-plt.show()
+%matplotlib inline
+
+nyse.plot(figsize = (16,6));
 ```
 
 
-    <Figure size 1600x600 with 1 Axes>
+![png](index_files/index_24_0.png)
 
 
 ## Time series dot plot
 
-For some time series, you may want to change the style of a line plot for a more refined visualization with a higher resolution of events. These time series are not very dense, but 
-also here it might be useful to change from a continuous line to dots because this representation might be misleading. 
-You can change the continuous line to dots, each representing one entry in the time series. this can be achieved by `style` parameter of the line plot. lets pass `style='b.` as an argument to `.plot()` function.
+For some time series, you may want to change the style of a line plot for a more refined visualization with a higher resolution of events. These time series are not very dense so it might be useful to change from a continuous line to dots because this representation might be misleading. 
+You can change the continuous line to dots, each representing one entry in the time series. This can be achieved by changing the `style` parameter of the line plot. Let's pass `style='b.` as an argument to `.plot()` function.
 
 
 ```python
-# Draw a line plot using temp and .plot() function. 
-nyse.plot(figsize = (20,6), style = ".b")
-import matplotlib.pyplot as plt
-plt.show()
+# Draw a dot plot using temp and .plot() function. 
+nyse.plot(figsize = (20,6), style = ".b");
 ```
 
 
@@ -738,8 +735,7 @@ for yr, group in year_groups:
     nyse_annual[yr.year] = group.values.ravel()
     
 # Plot the yearly groups as subplots
-nyse_annual.plot(figsize = (13,8), subplots=True, legend=True)
-plt.show()
+nyse_annual.plot(figsize = (13,8), subplots=True, legend=True);
 ```
 
 
@@ -753,8 +749,7 @@ In some cases, it may also be a good idea to plot these groups in an overlapping
 
 ```python
 # Plot overlapping yearly groups 
-nyse_annual.plot(figsize = (15,5), subplots=False, legend=True)
-plt.show()
+nyse_annual.plot(figsize = (15,5), subplots=False, legend=True);
 ```
 
 
@@ -773,8 +768,7 @@ We will now create a histogram plot of the observations in the dataset using `hi
 
 
 ```python
-nyse.hist(figsize = (10,6))
-plt.show()
+nyse.hist(figsize = (10,6));
 ```
 
 
@@ -785,8 +779,7 @@ The plot shows a distribution that doesn't exactly look Gaussian/Normal. The plo
 
 
 ```python
-nyse.hist(figsize = (10,6), bins = 7)
-plt.show()
+nyse.hist(figsize = (10,6), bins = 7);
 ```
 
 
@@ -797,13 +790,12 @@ This already looks more normal. With stock exchange returns, it is to be expecte
 
 We can also get a better idea of the shape of the distribution of observations by using a density plot which is like the histogram, except a function is used to fit the distribution of observations with smoothing to summarize this distribution.
 
-Let's plot a density plot of the NYSE stock exchange data. We will achieve this by setting the kind parameter of the plot() function to KDE, which stands for Kernel Density Estimation.
+Let's plot a density plot of the NYSE stock exchange data. We will achieve this by setting the `kind` parameter of the `plot()` function to "kde", which stands for Kernel Density Estimation.
 
 
 ```python
 # Plot a density plot for temperature dataset
-nyse.plot(kind='kde', figsize = (15,10))
-plt.show()
+nyse.plot(kind='kde', figsize = (15,10));
 ```
 
 
@@ -818,17 +810,16 @@ Seeing a distribution like this may suggest later exploring statistical hypothes
 
 Histograms and density plots provide insight into the distribution of all observations, but we may be interested in the distribution of values by **time interval**.
 
-Another type of plot that is useful to summarize the distribution of observations is the box and whisker plot. This plot draws a box around the 25th and 75th percentiles of the data that captures the middle 50% of observations. A line is drawn at the 50th percentile (the median) and whiskers are drawn above and below the box to summarize the general extents of the observations. Dots are drawn for outliers outside the whiskers or extents of the data.
+Another type of plot that is useful to summarize the distribution of observations is the box and whisker plot. This plot draws a box around the 25th and 75th percentiles of the data that captures the middle 50% of observations. A line is drawn at the 50th percentile (the median) and whiskers are drawn above and below the box to summarize the general extent of the observations. Dots are drawn for outliers outside the whiskers or extent of the data.
 
 Box and whisker plots can be created and compared for each interval in a time series, such as years, months, or days.
 
-Let's use our groups by years DataFrame to plot a box and whisker plot for each year,  side-by-side for direct comparison using `boxplot()`.
+Let's use our groups by years DataFrame to plot a box and whisker plot for each year,  side-by-side, for direct comparison using `boxplot()`.
 
 
 ```python
 # Generate a box and whiskers plot for temp_annual dataframe
-nyse_annual.boxplot(figsize = (12,7))
-plt.show()
+nyse_annual.boxplot(figsize = (12,7));
 ```
 
 
@@ -837,7 +828,7 @@ plt.show()
 
 Comparing box and whisker plots by consistent intervals is a useful tool. Within an interval, it can help to spot outliers (dots above or below the whiskers).
 
-Across intervals, we can look for multiple year trends, seasonality, and other structural information that could be modeled. Seasonality is generally not a thing in financial data, but in the lab that follows you'll explore visualizing the temperature data!
+Across intervals, we can look for multiple year trends, seasonality, and other structural information that could be modeled. Seasonality is generally not a thing in financial data, but in the lab that follows you'll, explore visualizing seasonal temperature data!
 
 ## Time series heat maps
 
@@ -847,15 +838,14 @@ In the case of our NYSE dataset, the observations can be arranged into a matrix 
 
 We'll now create a heatmap of the Minimum Daily Temperatures data. The `matshow()` function from the matplotlib library is used as no heatmap support is provided directly in Pandas.
 
-1. Rotate (transpose) the `nyse_annual` dataframe as a new matrix the matrix so that each row represents one year and each column one day. This provides a more intuitive, left-to-right layout of the data.
+1. Rotate (transpose) the `nyse_annual` dataframe as a new matrix so that each row represents one year and each column one day. This provides a more intuitive, left-to-right layout of the data.
 
-2. Use `matshow()` function to draw a heatmap for transposed yearly matrix. details on matshow can be accessed [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.matshow.html).
+2. Use `matshow()` function to draw a heatmap for the transposed yearly matrix. Details on matshow can be accessed [here](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.matshow.html).
 
 
 ```python
 year_matrix = nyse_annual.T
-plt.matshow(year_matrix, interpolation=None, aspect='auto', cmap=plt.cm.Spectral_r)
-plt.show()
+plt.matshow(year_matrix, interpolation=None, aspect='auto', cmap=plt.cm.Spectral_r);
 ```
 
 
